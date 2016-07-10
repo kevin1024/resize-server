@@ -1,3 +1,16 @@
+function cleanOptions(options) {
+  var newOptions = Object.assign(options, {});
+  if (!newOptions.image.startsWith('http')) {
+    newOptions.image = 'http://' + newOptions.image;
+  }
+  if (newOptions.height) {
+    newOptions.height = parseInt(newOptions.height);
+  }
+  if (newOptions.width) {
+    newOptions.width = parseInt(newOptions.width);  
+  }
+  return newOptions;
+}
 module.exports = function parsePath(path) {
   // Kind of based on thumbor: https://github.com/thumbor/libthumbor/blob/master/libthumbor/url.py
   const pattern = RegExp([
@@ -40,6 +53,6 @@ module.exports = function parsePath(path) {
       filters: match[20],
       image: match[21],
     }
-    return options;
+    return cleanOptions(options);
   }
 }
