@@ -22,6 +22,7 @@ function getTransformer(options) {
 const server = http.createServer((req, res) => {
   const path = url.parse(req.url).pathname;
   const options = parser(path);
+  console.log(options);
   if (!options) {
     res.write('Not Found');
     res.end();
