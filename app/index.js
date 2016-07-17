@@ -20,7 +20,6 @@ console.log('SIMD support is: ' + sharp.simd());
 const server = http.createServer((req, res) => {
   const path = url.parse(req.url).pathname;
   const options = parser(path);
-  console.log(options);
   if (!options) {
     res.statusCode = 404;
     res.write('Problem parsing your request');
