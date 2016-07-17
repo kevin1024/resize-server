@@ -1,7 +1,7 @@
-const http = require('http');
-const https = require('https');
 const querystring = require('querystring');
 const url = require('url');
+const http = require('http');
+const request = require('request');
 const sharp = require('sharp');
 const throng = require('throng');
 const blocked = require('blocked');
@@ -10,7 +10,7 @@ const parser = require('./parser');
 const pipeline = require('./pipeline');
 const transform = require('./transform');
 
-const hostname = '127.0.0.1';
+const hostname = '0.0.0.0';
 const port = 3000;
 
 console.log('enabling SIMD support...');
@@ -22,15 +22,20 @@ const server = http.createServer((req, res) => {
   const options = parser(path);
   console.log(options);
   if (!options) {
-    res.write('Not Found');
+    res.statusCode = 404;
+    res.write('Problem parsing your request');
     res.end();
     return;
   }
   var operations = pipeline(options);
-  http.get(options.image, (data) => {
-    res.statusCode = 200;
-    data.pipe(transform(operations)).pipe(res, {end: true});
-  });
+  res.statusCode = 200;
+  request(options.image)
+    .on('error', (err) => {
+      res.write(`Error retrieving image ${options.image}: ${err}`);
+      res.statusCode = 400;
+      res.end();
+    })
+    .pipe(transform(operations)).pipe(res, {end: true});
 });
 
 const timer = blocked((ms) => debug(`IO loop blocked for ${ms}ms`));
