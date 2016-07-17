@@ -11,8 +11,18 @@ describe("pipeline", () => {
       image: 'http://u.realgeeks.media/hawaiis/hawaiirealestatecompany.png'
     })).toEqual([
         {op: 'get', url: 'http://u.realgeeks.media/hawaiis/hawaiirealestatecompany.png'},
-        {op: 'resize', width: 200, height: 43},
+        {op: 'resize', width: 200, height: 43, fitIn: true},
         {op: 'format', type: 'png'},
+    ]);
+  })
+  it("works for standard (no fit-in)", () => {
+    expect(pipeline({
+        width: 10,
+        height: 20,
+        image: 'http://u.realgeeks.media/hawaiis/hawaiirealestatecompany.png'
+    })).toEqual([
+        {op: 'get', url: 'http://u.realgeeks.media/hawaiis/hawaiirealestatecompany.png'},
+        {op: 'resize', width: 10, height: 20, fitIn: false},
     ]);
   })
 });

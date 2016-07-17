@@ -6,7 +6,7 @@ module.exports = function pipeline(options) {
     {op: 'get', url: options.image},
   ];
   if (options.width && options.height) {
-    out.push({op: 'resize', width: 200, height: 43});
+    out.push({op: 'resize', width: options.width, height: options.height, fitIn: !!options.fitIn});
   }
   if (options.filters === 'format(png)') {
     out.push({op: 'format', type: 'png'});
