@@ -16,7 +16,7 @@ const port = 3000;
 console.log('enabling SIMD support...');
 sharp.simd(true);
 console.log('SIMD support is: ' + sharp.simd());
-console.log('libvips version is ' + sharp.libvipsVersion());
+console.log('libvips version is ' + sharp.versions.vips);
 
 const server = http.createServer((req, res) => {
   const path = url.parse(req.url).pathname;
