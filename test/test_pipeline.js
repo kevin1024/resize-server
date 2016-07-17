@@ -25,4 +25,13 @@ describe("pipeline", () => {
         {op: 'resize', width: 10, height: 20, fitIn: false},
     ]);
   })
+  it("It adds a trim op", () => {
+    expect(pipeline({
+        image: 'http://u.realgeeks.media/hawaiis/hawaiirealestatecompany.png',
+        trim: 'trim:top-left:4'
+    })).toEqual([
+        {op: 'get', url: 'http://u.realgeeks.media/hawaiis/hawaiirealestatecompany.png'},
+        {op: 'trim', tolerance: 4},
+    ]);
+  })
 });

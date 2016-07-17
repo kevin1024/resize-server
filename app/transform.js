@@ -10,10 +10,16 @@ module.exports = function transform(operations) {
         transformer.max();
       }
     }
-    if (operations.op == 'format') {
+    if (operation.op == 'format') {
       if (operation.type == 'png') {
         transformer.png();
       }
+      if (operation.type == 'jpg') {
+        transformer.jpeg();
+      }
+    }
+    if (operation.op == 'trim') {
+      transformer.trim(operation.tolerance);
     }
   })
   return transformer;

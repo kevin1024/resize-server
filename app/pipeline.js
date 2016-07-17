@@ -11,5 +11,10 @@ module.exports = function pipeline(options) {
   if (options.filters === 'format(png)') {
     out.push({op: 'format', type: 'png'});
   }
+  if (options.trim) {
+    //trim:top-left:15
+    var params = options.trim.split(':');
+    out.push({op: 'trim', tolerance:parseInt(params[2])});
+  }
   return out;
 }
